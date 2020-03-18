@@ -5,8 +5,9 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["ElvantoMaps/ElvantoMaps.csproj", "ElvantoMaps/"]
+COPY ["ElvantoMaps/Nuget.Config", "/src/ElvantoMaps/Nuget.Config"]
+RUN dotnet restore "ElvantoMaps/ElvantoMaps.csproj" --configfile "/src/ElvantoMaps/Nuget.Config"
 COPY . .
-RUN dotnet restore "ElvantoMaps/ElvantoMaps.csproj"
 WORKDIR "/src/ElvantoMaps"
 RUN dotnet build "ElvantoMaps.csproj" -c Release -o /app/build
 
