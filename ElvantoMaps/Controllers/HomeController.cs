@@ -83,7 +83,7 @@ namespace ElvantoMaps.Controllers
             foreach (var item in persons.Select(i => (i.Home_address, i.Home_address2, i.Home_city, i.Home_postcode, i.Home_state, i.Home_country)).Distinct())
             {
                 var address = HttpUtility.UrlEncode($"{item.Home_address} {item.Home_address2} {item.Home_city} {item.Home_state} {item.Home_postcode} {item.Home_country}".Replace("  ", " ").Trim());
-                var response = await httpclient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key=AIzaSyBBucMuhJPTKMM1CWk_6Z2Lcr5Ll6nOZyI");
+                var response = await httpclient.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={Environment.GetEnvironmentVariable("GOOGLE_KEY")}");
                 var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.GeocodingResponse>(await response.Content.ReadAsStringAsync());
 
                 await Task.Delay(400);
