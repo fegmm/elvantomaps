@@ -39,12 +39,12 @@ namespace ElvantoMaps.Controllers
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             var elvanto = new ElvantoApi.Client(accessToken, true);
-
             var persons = (await elvanto.PeopleGetAllAsync(new ElvantoApi.Models.GetAllPeopleRequest()
             {
                 Archived = "no",
                 Contact = "no",
                 Suspended = "no",
+                Category_id = Environment.GetEnvironmentVariable("PERSON_CATEGORY"),
                 Fields = new[] { "home_address", "home_address2", "home_city", "home_state", "home_postcode", "home_country", "birthday" }
             })).People.Person;
             var locations = this.db.Locations.ToList();
