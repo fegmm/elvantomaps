@@ -52,12 +52,13 @@ namespace ElvantoMaps.Controllers
             await GetAllLocationsAsync(persons
                 .Where(i => !locations.Any(j => LocationToString(j) == PersonAddressToString(i))));
 
-            locations = this.db.Locations.ToList();
-
-            var result = locations.GroupJoin(persons.OrderBy(i => i.Birthday),
-                i => LocationToString(i),
-                i => PersonAddressToString(i),
-                (location, person) => new { person, location });
+            var result = this.db.Locations
+                .ToList()
+                .GroupJoin(persons.OrderBy(i => i.Birthday),
+                           i => LocationToString(i),
+                           i => PersonAddressToString(i),
+                           (location, person) => new { person, location })
+                .Where(i => i.person.Any());
 
             return Json(result);
         }
