@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -45,7 +45,10 @@ namespace ElvantoMaps.Controllers
                 Contact = "no",
                 Suspended = "no",
                 Category_id = Environment.GetEnvironmentVariable("PERSON_CATEGORY"),
-                Fields = new[] { "home_address", "home_address2", "home_city", "home_state", "home_postcode", "home_country", "birthday" }
+                Fields = new[] { "home_address", "home_address2", "home_city", "home_state", "home_postcode", "home_country" }
+                            .Concat(Environment.GetEnvironmentVariable("ELVANTO_ADDITIONAL_FIELDS").Split(";"))
+                            .Distinct()
+                            .ToArray()
             })).People.Person;
             var locations = this.db.Locations.ToList();
 

@@ -6,6 +6,9 @@ Environments Variables to be set:
 - CLIENT_SECRET*
 - PERSON_CATEGORY
 - GOOGLE_KEY*
+- PERSON_DISPLAY_FIELDS_NAMES (",Vorname,Nachname,Alter")
+- PERSON_DISPLAY_FIELDS_Value ("picture,firstname,lastname,age")
+- ELVANTO_ADDITIONAL_FIELDS ("birthday")
 
 * = Required
 

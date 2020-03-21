@@ -2,6 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
+
     .fullscreen {
         position: absolute;
         left: 0px;
@@ -410,17 +411,28 @@
                 var markers = L.markerClusterGroup();
                 data.forEach(item => {
                     var table = `<table style="width:100%" class="table table-striped">
-                              <tr>
-                                <th>Vorname</th>
-                                <th>Nachname</th>
-                                <th>Alter</th>
-                              </tr>`;
+                                    <tr>
+                                    @foreach (var item in Environment.GetEnvironmentVariable("PERSON_DISPLAY_FIELDS_NAMES").Split(","))
+                                    {
+                                        <th>@item</th>
+                                    }
+                                    </tr>`;
+
                     item.person.forEach(person => {
                         table += `<tr>
-                                <td>` + person.firstname + `</td>
-                                <td>`  + person.lastname + `</td>
-                                <td>` + (Math.abs(new Date(Date.now() - Date.parse(person.birthday)).getUTCFullYear() - 1970) || '-') + `</td>
-                              </tr>`;
+                                    @foreach (var item in Environment.GetEnvironmentVariable("PERSON_DISPLAY_FIELDS_VALUES").Split(","))
+                                    {
+                                        @if (item == "age")
+                                        {
+                                            <td>` + (Math.abs(new Date(Date.now() - Date.parse(person.birthday)).getUTCFullYear() - 1970) || '-') + `</td>
+                                        } else if (item == "picture") {
+                                           <td><img src="` + person.picture	+ `" style="height: 20; width: 40px;"></td>
+                                        } else
+                                        {
+                                            <td>` + person.@item + `</td>
+                                            }
+                                        }
+                                    </tr>`;
                     });
 
                     table += '</table>';
@@ -431,9 +443,5 @@
                 mymap.addLayer(markers);
                 $("#loading").remove();
             });
-
-
-
-
     })();
 </script>
