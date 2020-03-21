@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -58,7 +58,9 @@ namespace ElvantoMaps.Controllers
                            i => LocationToString(i),
                            i => PersonAddressToString(i),
                            (location, person) => new { person, location })
-                .Where(i => i.person.Any());
+                .Where(i => i.person.Any())
+                .GroupBy(i => i.location.FormattedAddress)
+                .Select(i => i.First());
 
             return Json(result);
         }
