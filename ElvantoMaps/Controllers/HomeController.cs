@@ -63,7 +63,7 @@ namespace ElvantoMaps.Controllers
                            (location, person) => new { person, location })
                 .Where(i => i.person.Any())
                 .GroupBy(i => i.location.FormattedAddress)
-                .Select(i => i.First());
+                .Select(i => new { i.First().location, person = i.SelectMany(j => j.person).Distinct() });
 
             return Json(result);
         }
