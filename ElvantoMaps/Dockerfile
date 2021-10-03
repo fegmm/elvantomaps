@@ -1,12 +1,15 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
+COPY ["ElvantoMaps/Nuget.Config", "ElvantoMaps/"]
 COPY ["ElvantoMaps/ElvantoMaps.csproj", "ElvantoMaps/"]
-COPY ["ElvantoMaps/Nuget.Config", "/src/ElvantoMaps/Nuget.Config"]
-RUN dotnet restore "ElvantoMaps/ElvantoMaps.csproj" --configfile "/src/ElvantoMaps/Nuget.Config"
+RUN dotnet restore "ElvantoMaps/ElvantoMaps.csproj"
 COPY . .
 WORKDIR "/src/ElvantoMaps"
 RUN dotnet build "ElvantoMaps.csproj" -c Release -o /app/build

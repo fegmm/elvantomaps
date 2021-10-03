@@ -12,7 +12,7 @@ using Geocoding.Google;
 using Geocoding;
 using System.Net.Http;
 using System.Web;
-using ElvantoApi.Models;
+using ElvantoSync.ElvantoApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 
@@ -38,8 +38,8 @@ namespace ElvantoMaps.Controllers
         public async Task<IActionResult> GetDataAsync()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-            var elvanto = new ElvantoApi.Client(accessToken, true);
-            var persons = (await elvanto.PeopleGetAllAsync(new ElvantoApi.Models.GetAllPeopleRequest()
+            var elvanto = new ElvantoSync.ElvantoApi.Client(accessToken, true);
+            var persons = (await elvanto.PeopleGetAllAsync(new ElvantoSync.ElvantoApi.Models.GetAllPeopleRequest()
             {
                 Archived = "no",
                 Contact = "no",
