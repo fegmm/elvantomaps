@@ -53,6 +53,7 @@ namespace ElvantoMaps
                 {
                     options.ClientId = Environment.GetEnvironmentVariable("CLIENT_ID");
                     options.ClientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET");
+                    options.CorrelationCookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
                     options.Scope.Add("ManagePeople");
                     options.AuthorizationEndpoint = "https://api.elvanto.com/oauth";
                     options.CallbackPath = new Microsoft.AspNetCore.Http.PathString("/signin-elvanto");
