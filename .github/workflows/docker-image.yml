@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker Login
+      uses: docker/login-action@v1.10.0
+      with:
+       username: webersa
+       password: ${{secrets.docker_access_token}}
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag webersa/elvantomaps:latest
+    - name: Push the docker image to Hub
+      run: docker push webersa/elvantomaps:latest
