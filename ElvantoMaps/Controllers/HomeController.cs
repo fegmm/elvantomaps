@@ -49,7 +49,7 @@ namespace ElvantoMaps.Controllers
                             .Concat(Environment.GetEnvironmentVariable("ELVANTO_ADDITIONAL_FIELDS").Split(";"))
                             .Distinct()
                             .ToArray()
-            })).People.Person;
+            })).People.Person.Where(i => i.Deceased == 0);
             var locations = this.db.Locations.ToList();
 
             await GetAllLocationsAsync(persons
